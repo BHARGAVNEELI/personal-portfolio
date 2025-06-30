@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            background-color: black;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            position: relative;
+            overflow-x: hidden;
+            transition: background-color 0s; /* Prevent default background transition */
+            min-height: 100vh; /* Ensure body is at least viewport height */
+        }
+        body.light-mode {
+            background-color: #f5f5dc; /* Light beige */
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: black; /* Default dark mode */
+            z-index: -1;
+            transition: opacity 2s ease-out; /* Slow fade for background */
+            opacity: 1;
+        }
+        body.light-mode::before {
+            background-color: #f5f5dc; /* Light beige for light mode */
+            opacity: 1;
+        }
+        body * {
+            background-color: transparent; /* Override * background */
+            transition: color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease; /* Smooth transitions */
+        }
+        .intro {
+            color: rebeccapurple;
+            font-size: 200px;
+            padding: 0%;
+            border: 0cap;
+        }
+        .intro:hover {
+            color: #663399;
+            transform: scale(1.02);
+        }
+        body.light-mode .intro {
+            color: darkblue;
+        }
+        body.light-mode .intro:hover {
+            color: navy;
+            transform: scale(1.02);
+        }
+        h2 {
+            color: palevioletred;
+            font-size: 100px;
+            padding: 0%;
+            border: 0cap;
+        }
+        h2:hover {
+            color: #c71585;
+            transform: scale(1.02);
+        }
+        body.light-mode h2 {
+            color: crimson;
+        }
+        body.light-mode h2:hover {
+            color: darkred;
+            transform: scale(1.02);
+        }
+        .details {
+            color: palegoldenrod;
+            font-size: 150px;
+            position: relative;
+            cursor: pointer; /* Indicate clickability */
+        }
+        .details:hover {
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 40px rgba(255, 215, 0, 0.6); /* Strong glow */
+        }
+        body.light-mode .details {
+            color: goldenrod;
+        }
+        body.light-mode .details:hover {
+            text-shadow: 0 0 20px rgba(184, 134, 11, 0.8), 0 0 40px rgba(184, 134, 11, 0.6); /* Darker glow */
+        }
+        .details h1 {
+            display: inline-block;
+            transition: transform 0.5s ease, text-shadow 0.3s ease;
+        }
+        .details.clicked h1 {
+            transform: scale(1.5); /* Significant growth on click */
+            text-shadow: 0 0 50px rgba(255, 255, 255, 0.9), 0 0 100px rgba(255, 255, 255, 0.7); /* Bright white glow */
+        }
+        body.light-mode .details.clicked h1 {
+            text-shadow: 0 0 50px rgba(0, 0, 0, 0.9), 0 0 100px rgba(0, 0, 0, 0.7); /* Dark glow in light mode */
+        }
+        .details::after {
+            content: '';
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, transparent 70%); /* White glow */
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -2;
+            transition: width 2s ease-out, height 2s ease-out, opacity 2s ease-out;
+            opacity: 0;
+        }
+        body.light-mode .details::after {
+            background: radial-gradient(circle, rgba(0, 0, 0, 0.8) 0%, transparent 70%); /* Dark glow */
+        }
+        .details.clicked::after {
+            width: 200vw; /* Spreads across entire display */
+            height: 200vh;
+            opacity: 1;
+        }
+        .container {
+            display: flex;
+        }
+        .flex1 {
+            color: bisque;
+            padding: 20px;
+        }
+        .flex1:hover {
+            box-shadow: 0 0 10px rgba(255, 228, 196, 0.5);
+        }
+        .flex1 h1 {
+            color: palevioletred;
+            font-size: 70px;
+            margin-bottom: 30px;
+            background-color: transparent;
+        }
+        .flex1 h1:hover {
+            color: #c71585;
+            transform: scale(1.02);
+        }
+        body.light-mode .flex1 h1 {
+            color: crimson;
+        }
+        body.light-mode .flex1 h1:hover {
+            color: darkred;
+            transform: scale(1.02);
+        }
+        .flex1 ul {
+            font-size: 30px;
+            color: #ffddb3;
+            background-color: transparent;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+        .flex1 ul li {
+            padding: 5px 0;
+        }
+        .flex1 ul li:hover {
+            background-color: rgba(255, 228, 196, 0.2);
+            transform: translateX(5px);
+        }
+        body.light-mode .flex1 ul {
+            color: #6b4e31;
+        }
+        body.light-mode .flex1 ul li:hover {
+            background-color: rgba(139, 69, 19, 0.2);
+            transform: translateX(5px);
+        }
+        .flex2 {
+            border: 0pc;
+            padding-left: 20%;
+            text-align: left;
+            padding: 20px;
+        }
+        .flex2:hover {
+            box-shadow: 0 0 10px rgba(255, 228, 196, 0.5);
+        }
+        .flex2 h1 {
+            color: palevioletred;
+            font-size: 70px;
+            margin-bottom: 30px;
+            background-color: transparent;
+        }
+        .flex2 h1:hover {
+            color: #c71585;
+            transform: scale(1.02);
+        }
+        body.light-mode .flex2 h1 {
+            color: crimson;
+        }
+        body.light-mode .flex2 h1:hover {
+            color: darkred;
+            transform: scale(1.02);
+        }
+        .flex2 ul {
+            font-size: 30px;
+            color: #ffddb3;
+            background-color: transparent;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+        .flex2 ul li {
+            padding: 5px 0;
+        }
+        .flex2 ul li:hover {
+            background-color: rgba(255, 228, 196, 0.2);
+            transform: translateX(5px);
+        }
+        body.light-mode .flex2 ul {
+            color: #6b4e31;
+        }
+        body.light-mode .flex2 ul li:hover {
+            background-color: rgba(139, 69, 19, 0.2);
+            transform: translateX(5px);
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1 class="intro">Hey there!!</h1>
+        <h2>love to see you here</h2>
+    </div>
+    <div class="details" onclick="toggleTheme()">
+        <h1>BHARGAV NEELI</h1>
+    </div>
+    <div class="container">
+        <div class="flex1">
+            <h1>What am i?</h1>
+            <br>
+            <ul>
+                hey here is something about me:<br><hr>
+                <li>B.Tech Cyber Security student at VIIT, entering 3rd year</li>
+                <li>Passionate about ethical hacking and system security</li>
+                <li>Interested in emerging cyber technologies and vulnerabilities</li>
+                <li>Skills in programming, networking, and digital forensics</li>
+                <li>Problem-solver with offensive security mindset for defense strengthening</li>
+                <li>Committed to lifelong learning and real-world application</li>
+                <li>god of html, css, javascript</li>
+            </ul>
+        </div>
+        <div class="flex2">
+            <h1>WHAT DO I LIKE?</h1>
+            <ul>
+                here is the list o things that i would like to do when im bored<hr>
+                <li>MUSIC!</li>
+                <li>
+                    i like to watch webseries
+                    <ul>
+                        here is a list of my fav series
+                        <li>THE BOYS</li>
+                        <li>stranger things</li>
+                        <li>money heist</li>
+                    </ul>
+                </li>
+                <li>love movies (only crime thrillers though!!)</li>
+            </ul>
+        </div>
+    </div>
+    <script>
+        function toggleTheme() {
+            const details = document.querySelector('.details');
+            details.classList.add('clicked');
+            setTimeout(() => {
+                document.body.classList.toggle('light-mode');
+                details.classList.remove('clicked');
+            }, 500); /* Delay mode switch until glow animation progresses */
+        }
+    </script>
+</body>
+</html>
